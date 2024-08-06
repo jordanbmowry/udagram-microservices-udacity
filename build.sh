@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Ensure buildx is set up
+# Ensure buildx is set up (optional for single arch, but kept for consistency)
 docker buildx create --use
 docker buildx inspect --bootstrap
 
@@ -21,8 +21,8 @@ for service in "${services[@]}"; do
 
   echo "Building and pushing $full_image_name from $context"
   
-  # Build and push the image for multiple architectures with quiet output
-  docker buildx build --platform linux/amd64,linux/arm64 -t $full_image_name $context --push --quiet
+  # Build and push the image for amd64 architecture with quiet output
+  docker buildx build --platform linux/amd64 -t $full_image_name $context --push --quiet
   build_result=$?
 
   if [ $build_result -ne 0 ]; then
