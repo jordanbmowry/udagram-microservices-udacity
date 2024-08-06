@@ -23,8 +23,8 @@ script:
   - docker buildx create --use
   - docker buildx inspect --bootstrap
 
-  # Build and push the images
-  - bash build.sh
+  # Build and push the images with extended timeout
+  - travis_wait bash build.sh
 
 # Tasks to perform after the process is successful
 after_success:

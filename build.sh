@@ -21,8 +21,8 @@ for service in "${services[@]}"; do
 
   echo "Building and pushing $full_image_name from $context"
   
-  # Build and push the image for multiple architectures
-  docker buildx build --platform linux/amd64,linux/arm64 -t $full_image_name $context --push
+  # Build and push the image for multiple architectures with quiet output
+  docker buildx build --platform linux/amd64,linux/arm64 -t $full_image_name $context --push --quiet
   build_result=$?
 
   if [ $build_result -ne 0 ]; then
