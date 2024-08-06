@@ -17,7 +17,7 @@ for service in "${services[@]}"; do
   name=$(echo $service | cut -d':' -f1)
   context=$(echo $service | cut -d':' -f2)
   tag=$(echo $service | cut -d':' -f3)
-  full_image_name="jordanbmowry/$tag"  
+  full_image_name="$DOCKER_USERNAME/$tag"  # Use Docker Hub username from environment variables
 
   echo "Building and pushing $full_image_name from $context"
   
