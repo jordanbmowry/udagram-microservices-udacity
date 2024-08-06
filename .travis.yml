@@ -1,0 +1,44 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+env:
+  global:
+    - DOCKER_CLI_EXPERIMENTAL=enabled
+    - DOCKER_BUILDKIT=1
+
+# Pre-testing installs
+install:
+  - echo "nothing needs to be installed"
+
+# Scripts to be run before the main script
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version # print the version for logging
+  - docker buildx create --use
+  - docker buildx inspect --bootstrap
+
+  # Build and push the images
+  - bash build.sh
+
+# Tasks to perform after the process is successful
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+# Define a simple build script
+before_deploy:
+  - echo "Building Docker images"
+
+deploy:
+  provider: script
+  script: ./build.sh
+  on:
+    branch: main
