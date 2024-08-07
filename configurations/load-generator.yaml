@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: load-generator
+spec:
+  containers:
+    - name: load-generator
+      image: williamyeh/hey
+      args:
+        - -z
+        - '30m'
+        - -q
+        - -c
+        - '50'
+        - -n
+        - '1000000'
+        - http://publicreverseproxy:8080/api/v0/feed
+  restartPolicy: Never
